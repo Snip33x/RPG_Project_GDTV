@@ -8,6 +8,8 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] Transform target;
 
+
+
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -16,7 +18,9 @@ public class Mover : MonoBehaviour
         }
         //Debug.DrawRay(lastRay.origin, lastRay.direction * 100); //casting ray line
 
+        UpdateAnimator();
     }
+
 
     private void MoveToCursor()
     {
@@ -27,5 +31,12 @@ public class Mover : MonoBehaviour
         {
             GetComponent<NavMeshAgent>().destination = hit.point;
         }
+    }
+    private void UpdateAnimator()
+    {
+        Vector3 velocity = GetComponent<NavMeshAgent>().velocity; //NavMesh is giving us the global values
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);  //converting into localVelocity point is that, the animator knows we are moving forward, no matter at what direction
+        float speed = localVelocity.z;
+        GetComponent<Animator>().SetFloat("forwardSpeed", speed);
     }
 }
