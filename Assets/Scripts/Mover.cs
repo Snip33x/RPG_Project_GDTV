@@ -8,31 +8,16 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] Transform target;
 
-
-
     void Update()
     {
-        if(Input.GetMouseButton(0))
-        {
-            MoveToCursor();
-        }
-        //Debug.DrawRay(lastRay.origin, lastRay.direction * 100); //casting ray line
-
         UpdateAnimator();
-
     }
 
-
-    private void MoveToCursor()
+    public void MoveTo(Vector3 destination)  //interface 
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        bool hasHit = Physics.Raycast(ray, out hit);
-        if(hasHit)
-        {
-            GetComponent<NavMeshAgent>().destination = hit.point;
-        }
+        GetComponent<NavMeshAgent>().destination = destination;
     }
+
     private void UpdateAnimator()
     {
         Vector3 velocity = GetComponent<NavMeshAgent>().velocity; //NavMesh is giving us the global values

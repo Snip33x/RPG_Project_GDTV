@@ -6,8 +6,8 @@ public class FollowCamera : MonoBehaviour
 {
     [SerializeField] Transform target;
 
-    // Update is called once per frame
-    void LateUpdate()
+
+    void LateUpdate() // The camera will update after the player has moved, otherway we will get some skipping frames bugs
     {
         transform.position = target.position;
     }
