@@ -12,12 +12,13 @@ namespace RPG.Control
     {
         private void Update()
         {
-            InteractWithCombat();
-            InteractWithMovement();
+            if (InteractWithCombat()) return;
+            if (InteractWithMovement()) return;
+            print("Nothing to do");
             //Debug.DrawRay(lastRay.origin, lastRay.direction * 100); //casting ray line
         }
 
-        private void InteractWithCombat()
+        private bool InteractWithCombat()
         {
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
@@ -29,25 +30,25 @@ namespace RPG.Control
                 {
                     GetComponent<Fighter>().Attack(target);
                 }
+                return true; //interaction with combat should start when we hover over enemy (attack cursor)
             }
+            return false; // we didn't find any enemies to interact with 
         }
 
-        private void InteractWithMovement()
+        private bool InteractWithMovement()
         {
-            if (Input.GetMouseButton(0))
-            {
-                MoveToCursor();
-            }
-        }
 
-        private void MoveToCursor()
-        {
             RaycastHit hit;
             bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
             if (hasHit)
             {
-                GetComponent<Mover>().MoveTo(hit.point);
+                if (Input.GetMouseButton(0))
+                {
+                    GetComponent<Mover>().MoveTo(hit.point);
+                }
+                return true; //interaction with movement should start when we hover over enemy (move cursor)
             }
+            return false; // we didn't find any place to move to 
         }
 
         private static Ray GetMouseRay()
