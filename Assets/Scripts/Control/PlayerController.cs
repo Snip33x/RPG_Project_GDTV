@@ -39,7 +39,7 @@ namespace RPG.Control
         {
 
             RaycastHit hit;
-            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);  //raycast is flying all the time, and below we can imlemepnt hovering over with mouse
             if (hasHit)
             {
                 if (Input.GetMouseButton(0))

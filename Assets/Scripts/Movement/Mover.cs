@@ -10,6 +10,13 @@ namespace RPG.Movement
     {
         [SerializeField] Transform target;
 
+        NavMeshAgent navMeshAgent;
+
+        private void Start()
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
+
         void Update()
         {
             UpdateAnimator();
@@ -17,12 +24,18 @@ namespace RPG.Movement
 
         public void MoveTo(Vector3 destination)  //interface 
         {
-            GetComponent<NavMeshAgent>().destination = destination;
+            navMeshAgent.destination = destination;
+            navMeshAgent.isStopped = false;
+        }
+
+        public void Stop()
+        {
+            navMeshAgent.isStopped = true;
         }
 
         private void UpdateAnimator()
         {
-            Vector3 velocity = GetComponent<NavMeshAgent>().velocity; //NavMesh is giving us the global values
+            Vector3 velocity = navMeshAgent.velocity; //NavMesh is giving us the global values
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);  //converting into localVelocity point is that, the animator knows we are moving forward, no matter at what direction
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
