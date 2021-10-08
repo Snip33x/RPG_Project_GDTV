@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using UnityEngine.AI;
+using RPG.Core;
 
 namespace RPG.Combat
 {    
@@ -18,7 +19,7 @@ namespace RPG.Combat
         {
             if (target == null) return;
 
-            if (!GetIsInRange()) //if (target != null && !GetIsInRange()) IMPORTANT NOTE  && operator, if the first thing is false it skips evaluating the second because the result will alwyas be false -- optimalization! - this way we got rid of null reference error -- eventualy we had a problem here that we were stopping character all the time, so return early 
+            if (!GetIsInRange()) //if (target != null && !GetIsInRange()) IMPORTANT NOTE  && operator, if the first thing is false it skips evaluating the second because the result will alwyas be false -- optimalization! - this way we got rid of null reference error -- eventualy we had a problem here that we were stopping character all the time, so return early //quiz Bacis Combat #1
             {
                 GetComponent<Mover>().MoveTo(target.position);
             }
@@ -35,9 +36,11 @@ namespace RPG.Combat
 
         public void Attack(CombatTarget combatTarget)
         {
+            GetComponent<ActionScheduler>().StartAction(this);
             //print("Take that you short, squat peasant!");
             target = combatTarget.transform;
         }
+
 
         public void Cancel()
         {
