@@ -10,13 +10,17 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
+        [SerializeField] float timeBetweenAttacks = 1f;
 
         Transform target;
-
+        float timeSinceLastAttack = 0;
 
 
         private void Update()
         {
+            timeSinceLastAttack += Time.deltaTime;
+
+
             if (target == null) return;
 
             if (!GetIsInRange()) //if (target != null && !GetIsInRange()) IMPORTANT NOTE  && operator, if the first thing is false it skips evaluating the second because the result will alwyas be false -- optimalization! - this way we got rid of null reference error -- eventualy we had a problem here that we were stopping character all the time, so return early //quiz Bacis Combat #1
@@ -32,7 +36,11 @@ namespace RPG.Combat
 
         private void AttackBehaviour()  
         {
-            GetComponent<Animator>().SetTrigger("attack"); //setting up attack animatior
+            if (timeSinceLastAttack > timeBetweenAttacks) // throttling attack , making it slower
+            {
+                GetComponent<Animator>().SetTrigger("attack"); //setting up attack animatior
+                timeSinceLastAttack = 0;
+            }
         }
 
         private bool GetIsInRange()
