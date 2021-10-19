@@ -24,7 +24,10 @@ namespace RPG.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null) continue;
+                if (!GetComponent<Fighter>().CanAttack(target)) // making our mouse skip raycasting dead bodies
+                {
+                    continue;
+                }
 
                 if (Input.GetMouseButtonDown(0))
                 {

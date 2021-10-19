@@ -66,6 +66,13 @@ namespace RPG.Combat
             target = combatTarget.GetComponent<Health>();
         }
 
+        public bool CanAttack(CombatTarget combatTarget)  //making our raycast not hit dead bodies -- using this method in player Controller
+        {
+            if (combatTarget == null) { return false; }
+            Health targetToTest = combatTarget.GetComponent<Health>();
+            return targetToTest != null && !targetToTest.IsDead();
+        }
+
 
         public void Cancel()
         {
