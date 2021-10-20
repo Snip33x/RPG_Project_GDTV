@@ -43,14 +43,21 @@ namespace RPG.Combat
             if (timeSinceLastAttack > timeBetweenAttacks) // throttling attack , making it slower
             {
                 // This will trigger the Hit() event
-                GetComponent<Animator>().SetTrigger("attack"); //setting up attack animatior
+                TriggerAttack();
                 timeSinceLastAttack = 0;
             }
+        }
+
+        private void TriggerAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("stopAttack"); // Removin BUG that causes our character to attack - stop attack glitch, when we canceled attack before and moved away, test higher timebetweenattacks to see clearly
+            GetComponent<Animator>().SetTrigger("attack"); //setting up attack animatior
         }
 
         // Animation Event
         void Hit()
         {
+            if(target == null) { return; }
             target.TakeDamage(weaponDamage); // removing get component and turing it into this line
         }
 
@@ -76,11 +83,15 @@ namespace RPG.Combat
 
         public void Cancel()
         {
-            GetComponent<Animator>().SetTrigger("stopAttack"); //trigger in transition to make our character immidietly stop attacking animation when we move
+            StopAttack();
             target = null;
         }
 
-
+        private void StopAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("attack");
+            GetComponent<Animator>().SetTrigger("stopAttack"); //trigger in transition to make our character immidietly stop attacking animation when we move
+        }
     }
 
 }
