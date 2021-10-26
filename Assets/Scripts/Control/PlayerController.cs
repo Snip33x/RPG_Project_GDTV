@@ -24,14 +24,16 @@ namespace RPG.Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (!GetComponent<Fighter>().CanAttack(target)) // making our mouse skip raycasting dead bodies
+                if (target == null) continue;
+
+                if (!GetComponent<Fighter>().CanAttack(target.gameObject)) // making our mouse skip raycasting dead bodies
                 {
                     continue;
                 }
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                 }
                 return true; //interaction with combat should start when we hover over enemy (attack cursor)
             }

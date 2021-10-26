@@ -66,14 +66,14 @@ namespace RPG.Combat
             return Vector3.Distance(transform.position, target.transform.position) < weaponRange; //we are not using navmeshagent.remainingdistance because it is not calculating real distance, - as remainingDistance is a calculation what what actually needs to be travelled to get to the location.
         }
 
-        public void Attack(CombatTarget combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             //print("Take that you short, squat peasant!");
             target = combatTarget.GetComponent<Health>();
         }
 
-        public bool CanAttack(CombatTarget combatTarget)  //making our raycast not hit dead bodies -- using this method in player Controller
+        public bool CanAttack(GameObject combatTarget)  //making our raycast not hit dead bodies -- using this method in player Controller
         {
             if (combatTarget == null) { return false; }
             Health targetToTest = combatTarget.GetComponent<Health>();
