@@ -14,7 +14,7 @@ namespace RPG.Combat
         [SerializeField] float weaponDamage = 5f;
 
         Health target; //!!!! FIND OUT how this target is set up-- its dont in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
-        float timeSinceLastAttack = 0;
+        float timeSinceLastAttack = Mathf.Infinity; //before we had 0, and it took long time for our character to attack at start
 
 
         private void Update()
