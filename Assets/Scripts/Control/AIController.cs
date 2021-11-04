@@ -33,7 +33,7 @@ namespace RPG.Control
             mover = GetComponent<Mover>();
             health = GetComponent<Health>();
 
-            guardPosition = transform.position;
+            guardPosition = transform.position; //caching guard start Position
         }
 
         private void Update()
@@ -79,7 +79,7 @@ namespace RPG.Control
             {
                 if (Atwaypoint())
                 {
-                    timeSinceArrivedAtWaypoint = 0;
+                    timeSinceArrivedAtWaypoint = 0;  
                     CycleWaypoint();
                 }
                 nextPosition = GetCurrentWaypoint();
