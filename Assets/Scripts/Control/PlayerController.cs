@@ -59,7 +59,7 @@ namespace RPG.Control
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point, 1f); //1f - move at max speed
                 }
                 return true; //interaction with movement should start when we hover over enemy (move cursor)
             }
