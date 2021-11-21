@@ -3032,6 +3032,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.965
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.32700002
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.05599997
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678772728185472121, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 691812157896948417, guid: 462579c7ea63c214797af9c3cfbf7e94, type: 3}
       propertyPath: m_Name
       value: Portal
