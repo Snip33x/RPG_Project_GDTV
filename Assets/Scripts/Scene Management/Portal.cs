@@ -9,8 +9,14 @@ namespace RPG.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
+        enum DestinationIdentifier
+        {
+            A,B,C,D,E
+        }
+
         [SerializeField] int sceneToLoad = -1; // we will remember to change it in the inspector to right one
         [SerializeField] Transform spawnPoint;
+        [SerializeField] DestinationIdentifier destination;
 
         GameObject player;
 
@@ -25,6 +31,12 @@ namespace RPG.SceneManagement
 
         private IEnumerator Transition()
         {
+            if (sceneToLoad < 0)
+            {
+                Debug.LogError("Scene to load not set");
+                yield break;
+            }
+
             DontDestroyOnLoad(gameObject);
             yield return SceneManager.LoadSceneAsync(sceneToLoad);  //Unity knows that it needs to run this coroutine once the scene is loaded
 
@@ -38,8 +50,8 @@ namespace RPG.SceneManagement
         {
             foreach (Portal portal in FindObjectsOfType<Portal>())
             {
-                if (portal == this) continue;
-
+                if (portal == this) continue; //We dont want this same exact portal
+                if (portal.destination != this.destination) continue; //returning only when portal has right destination
                 return portal;
             }
 
