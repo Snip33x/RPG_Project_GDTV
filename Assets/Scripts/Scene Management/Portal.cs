@@ -17,6 +17,9 @@ namespace RPG.SceneManagement
         [SerializeField] int sceneToLoad = -1; // we will remember to change it in the inspector to right one
         [SerializeField] Transform spawnPoint;
         [SerializeField] DestinationIdentifier destination;
+        [SerializeField] float fadeOutTime = 1f;
+        [SerializeField] float fadeInTime = 1f;
+        [SerializeField] float fadeWaitTime = 0.5f;
 
         GameObject player;
 
@@ -38,12 +41,20 @@ namespace RPG.SceneManagement
             }
 
             DontDestroyOnLoad(gameObject);
+            
+            Fader fader = FindObjectOfType<Fader>();
+
+            yield return fader.FadeOut(fadeOutTime);
             yield return SceneManager.LoadSceneAsync(sceneToLoad);  //Unity knows that it needs to run this coroutine once the scene is loaded
+
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
 
-            Destroy(gameObject);
+            yield return new WaitForSeconds(fadeWaitTime); //wait for Camera to stabilize
+            yield return fader.FadeIn(fadeInTime);
+
+            Destroy(gameObject); //job of this current Portal is done so we destroy it
         }
 
         private Portal GetOtherPortal()
