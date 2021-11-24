@@ -40,16 +40,24 @@ namespace RPG.SceneManagement
                 yield break;
             }
 
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);  //dont destroy the portal until the new world has loaded up
             
             Fader fader = FindObjectOfType<Fader>();
 
             yield return fader.FadeOut(fadeOutTime);
+
+            //save current level
+            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); //saving wrapper is in hierarchy Core->PersistentObject Prefab-> Saving Children
+            wrapper.Save();
+
             yield return SceneManager.LoadSceneAsync(sceneToLoad);  //Unity knows that it needs to run this coroutine once the scene is loaded
 
+            // Load current level
+            wrapper.Load();
+            
 
             Portal otherPortal = GetOtherPortal();
-            UpdatePlayer(otherPortal);
+            UpdatePlayer(otherPortal); //updating player position
 
             yield return new WaitForSeconds(fadeWaitTime); //wait for Camera to stabilize
             yield return fader.FadeIn(fadeInTime);

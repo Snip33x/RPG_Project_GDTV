@@ -8,14 +8,14 @@ namespace RPG.Cinematics
 {
     public class CinematicTrigger : MonoBehaviour, ISaveable
     {
-        public bool alreadyTriggered = false;
+        public bool alreadyTriggeredCinematic = false;
 
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!alreadyTriggered && other.gameObject.tag == "Player")
+            if (!alreadyTriggeredCinematic && other.gameObject.tag == "Player")
             {
-                alreadyTriggered = true;
+                alreadyTriggeredCinematic = true;
                 GetComponent<PlayableDirector>().Play();
             }
         }
@@ -23,12 +23,12 @@ namespace RPG.Cinematics
         #region Saveable Interface
         public object CaptureState()
         {
-            return alreadyTriggered;
+            return alreadyTriggeredCinematic;
         }
 
         public void RestoreState(object state)
         {
-            alreadyTriggered = (bool)state;
+            alreadyTriggeredCinematic = (bool)state;
 
         }
         #endregion

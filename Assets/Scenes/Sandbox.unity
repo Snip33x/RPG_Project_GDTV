@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 545b6e8e013938e448491c6b0013738e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alreadyTriggered: 0
+  alreadyTriggeredCinematic: 0
 --- !u!114 &425133737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5932,7 +5932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485112919470, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.498663
+      value: 29.496439
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485112919470, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5940,11 +5940,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485112919470, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.257435
+      value: 28.259102
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485735374379, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.498663
+      value: 29.496439
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485735374379, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5952,7 +5952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7698644485735374379, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.257435
+      value: 28.259102
       objectReference: {fileID: 0}
     - target: {fileID: 7698644486082768442, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_Name
@@ -6001,10 +6001,6 @@ PrefabInstance:
     - target: {fileID: 7698644486082768443, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092134702630006807, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 05c4363e-f2ea-4621-b6cf-47ce445bb25b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
