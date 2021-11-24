@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//avoidint singleton Pattern
+//avoiding singleton Pattern
 namespace RPG.Core
 {
     public class PersistentObjectSpawner : MonoBehaviour
