@@ -69,7 +69,7 @@ namespace RPG.Movement
 
         public void RestoreState(object state)
         {
-            SerializableVector3 position = (SerializableVector3)state;  //!!!!we need to tell c# that this object is a Serializable Vector3, and we do that by casting it, this method will throw an exception if the object is not a serializableVector, - in a case if we are not sure if object will be 100% the one we want we can use --object as TypethatweWant and in a case it is not this Type, we will get null in return
+            SerializableVector3 position = (SerializableVector3)state;  //!!!!we need to tell c# that this object is a Serializable Vector3, and we do that by casting it, this method will throw an exception if the object is not a serializableVector, - in a case if we are not sure if object will be 100% the one we want we can use --object as TypethatweWant and in a case it is not this Type, we will get null in return // Vector3 is not marked as serializable,,, all basic types are marked as serializable int,bool,float,string , they are binary and can be saved into a file
             GetComponent<NavMeshAgent>().enabled = false; //to avoid bugs
             transform.position = position.ToVector();
             GetComponent<NavMeshAgent>().enabled = true; //to avoid bugs
