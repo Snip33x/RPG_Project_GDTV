@@ -416,6 +416,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 3.73
       objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 89a70f9e-f389-4b70-b5e2-0013d5ed504d
+      objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
       value: Enemy (7)
@@ -2587,6 +2591,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: bc62a382-6fe8-42f5-ac3a-57c1cfcebdf4
+      objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
@@ -3616,7 +3624,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1289066377}
-  m_LocalRotation: {x: 0.053498797, y: 0.8723357, z: -0.0980485, w: 0.47597784}
+  m_LocalRotation: {x: 0.053498797, y: 0.8723357, z: -0.0980485, w: 0.47597787}
   m_LocalPosition: {x: -2.06, y: 7.34, z: -10.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4255,6 +4263,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2.51
       objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: ee073d83-9414-42fa-9e26-bfc83532443f
+      objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -4376,6 +4388,10 @@ PrefabInstance:
     - target: {fileID: 3253562674670516233, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 788301dd-f039-4f1b-b95b-ceed6ad59db3
       objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
@@ -5023,6 +5039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a76aa4c3-efd0-4abd-a7f5-189e0fb2358d
+      objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -5083,6 +5103,10 @@ PrefabInstance:
     - target: {fileID: 3253562674670516233, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982886939004273250, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
+      propertyPath: uniqueIdentifier
+      value: cd67cae5-57f6-4b05-b1a7-e1884b6f889a
       objectReference: {fileID: 0}
     - target: {fileID: 8909015860444418182, guid: 10650c056dd6c244b9559ae4f01477ab, type: 3}
       propertyPath: m_Name
@@ -5930,6 +5954,10 @@ PrefabInstance:
     - target: {fileID: 7698644486082768443, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092134702630006807, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 05c4363e-f2ea-4621-b6cf-47ce445bb25b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0771f4ff2de8ba24093eea07fa9b5607, type: 3}
