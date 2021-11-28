@@ -87,7 +87,7 @@ namespace RPG.Saving
             }
         }
 
-        private string GetPathFromSaveFile(string saveFile)
+        private string GetPathFromSaveFile(string saveFile)  //makes our save file to be saved in a right path iOS, windows, android - C# adventage
         {
             return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
