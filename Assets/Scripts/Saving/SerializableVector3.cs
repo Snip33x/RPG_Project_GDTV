@@ -7,7 +7,7 @@ namespace RPG.Saving
     {
         float x, y, z;  // float (single precision) = 32 bits 6-9 digits // double (precision) = 64 bits 15-17 digits, double is much more precise, but takes longer for computer to utilize, thats why we mostly use float in game dev
 
-        public SerializableVector3(Vector3 vector)
+        public SerializableVector3(Vector3 vector) //constructor
         {
             x = vector.x;
             y = vector.y;
