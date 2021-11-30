@@ -10,7 +10,7 @@ namespace RPG.Saving
     [ExecuteAlways]
     public class SaveableEntity : MonoBehaviour
     {
-        [SerializeField] string uniqueIdentifier = "";
+        [SerializeField] string uniqueIdentifier = ""; //unset ID at start
         static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
 
         public string GetUniqueIdentifier()
@@ -51,7 +51,7 @@ namespace RPG.Saving
             
             if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
             {
-                property.stringValue = System.Guid.NewGuid().ToString();
+                property.stringValue = System.Guid.NewGuid().ToString();  //128 bit codes generated randomly, globally unique idntifier (guid) / universally unique identifier - UUiD there is a chance that 2 same ID's will be generated but it's super small chances
                 serializedObject.ApplyModifiedProperties();
             }
 
