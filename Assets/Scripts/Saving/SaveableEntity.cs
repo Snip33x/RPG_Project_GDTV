@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace RPG.Saving
 {
-    [ExecuteAlways]
+    [ExecuteAlways] //executes whenever we do anything in editing mode, for example, moving a mouse in edit window
     public class SaveableEntity : MonoBehaviour
     {
         [SerializeField] string uniqueIdentifier = ""; //unset ID at start
@@ -41,10 +41,10 @@ namespace RPG.Saving
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR //this code is removed from build 
         private void Update() {
-            if (Application.IsPlaying(gameObject)) return;
-            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+            if (Application.IsPlaying(gameObject)) return; //check if we are playing
+            if (string.IsNullOrEmpty(gameObject.scene.path)) return; //we don't want to give an ID to prefab // prefab does't have path
 
             SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
