@@ -47,7 +47,7 @@ namespace RPG.Saving
             {
                 return new Dictionary<string, object>();
             }
-            using (FileStream stream = File.Open(path, FileMode.Open))  //using is closing file automatically
+            using (FileStream stream = File.Open(path, FileMode.Open))  //using is closing file automatically 
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return (Dictionary<string, object>)formatter.Deserialize(stream);
