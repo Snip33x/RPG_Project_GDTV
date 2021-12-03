@@ -25,7 +25,7 @@ namespace RPG.Saving
 
         public void Save(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);
+            Dictionary<string, object> state = LoadFile(saveFile);  //this is used to not overwrite scenes, we first load, check file and then save other information
             CaptureState(state);
             SaveFile(saveFile, state);
         }
@@ -43,9 +43,9 @@ namespace RPG.Saving
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
-            if (!File.Exists(path))
+            if (!File.Exists(path))  //when we are saving we are first checking if there is a file before, and if this is a first save we are gettin error, so we make check here
             {
-                return new Dictionary<string, object>();
+                return new Dictionary<string, object>(); //this is just an empty dictionary
             }
             using (FileStream stream = File.Open(path, FileMode.Open))  //using is closing file automatically 
             {

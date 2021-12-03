@@ -21,9 +21,9 @@ namespace RPG.Saving
         public object CaptureState()
         {
             Dictionary<string, object> state = new Dictionary<string, object>();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach (ISaveable saveable in GetComponents<ISaveable>())  //loping over components that has ISaveable, and asking them to capture states
             {
-                state[saveable.GetType().ToString()] = saveable.CaptureState();
+                state[saveable.GetType().ToString()] = saveable.CaptureState();  //capture string for example of "mover" and store it and it's state in dictionary //in compile time we would get Type Isaveable, but in runtime it changes, and we get desired type of component
             }
             return state;
         }
