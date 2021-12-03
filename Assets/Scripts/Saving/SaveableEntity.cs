@@ -11,7 +11,7 @@ namespace RPG.Saving
     public class SaveableEntity : MonoBehaviour
     {
         [SerializeField] string uniqueIdentifier = ""; //unset ID at start
-        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
+        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();  //static lives through whole application
 
         public string GetUniqueIdentifier()
         {
@@ -59,13 +59,13 @@ namespace RPG.Saving
         }
 #endif
 
-        private bool IsUnique(string candidate)
+        private bool IsUnique(string candidate)  //when duplicating, for example enemy, the UUID was't generating a new ID, this method makes our system to genereate new ID when we copy enemy
         {
             if (!globalLookup.ContainsKey(candidate)) return true;
 
             if (globalLookup[candidate] == this) return true;
 
-            if (globalLookup[candidate] == null)
+            if (globalLookup[candidate] == null)  // when changing scenes, enemies are no longer changing UUID's
             {
                 globalLookup.Remove(candidate);
                 return true;
