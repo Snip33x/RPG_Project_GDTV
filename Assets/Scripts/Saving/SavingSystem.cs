@@ -11,11 +11,12 @@ namespace RPG.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
-        public IEnumerator LoadLastScene(string saveFile)
+        public IEnumerator LoadLastScene(string saveFile) //without it, if we saved in scene 2 and loaded in scene 1 , because our player prefab ID is same we would load in scene 1 with scene 2 paremeters
         {
+            //below 1 get state, 2 load last scene, 3 restore state
             Dictionary<string, object> state = LoadFile(saveFile);
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (state.ContainsKey("lastSceneBuildIndex"))
+            if (state.ContainsKey("lastSceneBuildIndex")) //we are checking if we have a saved file
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }

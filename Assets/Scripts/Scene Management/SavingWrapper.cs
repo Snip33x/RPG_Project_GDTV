@@ -11,7 +11,7 @@ namespace RPG.SceneManagement
         const string defaultSaveFile = "save";  //SavingWrapper is that if we use it in different project we can choose different place to save, or slot
         [SerializeField] float fadeInTime = 0.2f;
 
-        IEnumerator Start()
+        IEnumerator Start() //it calls start as a coroutine
         {
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
