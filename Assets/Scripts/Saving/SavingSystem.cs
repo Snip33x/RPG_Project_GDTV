@@ -26,7 +26,7 @@ namespace RPG.Saving
 
         public void Save(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);  //this is used to not overwrite scenes, we first load, check file and then save other information
+            Dictionary<string, object> state = LoadFile(saveFile);  //this is used to not overwrite scenes, we first load, check file and then save other information 
             CaptureState(state);
             SaveFile(saveFile, state);
         }
