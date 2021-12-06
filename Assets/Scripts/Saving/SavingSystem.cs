@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace RPG.Saving
 {
-    public class SavingSystem : MonoBehaviour
+    public class SavingSystem : MonoBehaviour // SavingSystem ties everything together, looks for all Isaveables, saves them into a file, keeps track of lastbuildIndex, and restores that
     {
         public IEnumerator LoadLastScene(string saveFile) //without it, if we saved in scene 2 and loaded in scene 1 , because our player prefab ID is same we would load in scene 1 with scene 2 paremeters
         {

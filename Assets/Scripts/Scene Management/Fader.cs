@@ -8,7 +8,7 @@ namespace RPG.SceneManagement
     {
         CanvasGroup canvasGroup;
 
-        private void Start()
+        private void Awake()  //we should set refrences in awake, and use them in start, so we won't get null refrences
         {
             canvasGroup = GetComponent<CanvasGroup>();
 

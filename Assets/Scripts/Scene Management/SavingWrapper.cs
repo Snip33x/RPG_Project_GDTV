@@ -6,7 +6,7 @@ using RPG.Saving;
 
 namespace RPG.SceneManagement
 {
-    public class SavingWrapper : MonoBehaviour
+    public class SavingWrapper : MonoBehaviour //we use this to drive our saving system
     {
         const string defaultSaveFile = "save";  //SavingWrapper is that if we use it in different project we can choose different place to save, or slot
         [SerializeField] float fadeInTime = 0.2f;

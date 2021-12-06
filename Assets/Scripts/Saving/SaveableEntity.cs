@@ -8,7 +8,7 @@ using UnityEngine.AI;
 namespace RPG.Saving
 {
     [ExecuteAlways] //executes whenever we do anything in editing mode, for example, moving a mouse in edit window
-    public class SaveableEntity : MonoBehaviour
+    public class SaveableEntity : MonoBehaviour //SaveableEntity - we put it on any game object that has Isaveable that we want to keep track off, it generated unique IDidentifier, with no overlapses in the scene
     {
         [SerializeField] string uniqueIdentifier = ""; //unset ID at start
         static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();  //static lives through whole application
