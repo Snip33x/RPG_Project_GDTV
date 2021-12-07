@@ -20,7 +20,7 @@ namespace RPG.Saving
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
+            yield return SceneManager.LoadSceneAsync(buildIndex); // we are putting loadingScene in coroutine becuase it can taka a long time to load
             RestoreState(state);
         }
 
