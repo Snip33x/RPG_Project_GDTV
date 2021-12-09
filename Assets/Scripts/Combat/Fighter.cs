@@ -11,14 +11,15 @@ namespace RPG.Combat
     {
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] Transform handTransform = null;
-        [SerializeField] Weapon weapon = null;
+        [SerializeField] Weapon defaultWeapon = null;
 
         Health target; //!!!! FIND OUT how this target is set up-- its dont in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
         float timeSinceLastAttack = Mathf.Infinity; //before we had 0, and it took long time for our character to attack at start
+        Weapon currentWeapon = null;
 
         private void Start()
         {
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
         private void Update()
@@ -62,12 +63,12 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
-            target.TakeDamage(weapon.GetWeaponDamage()); // removing get component and turing it into this line
+            target.TakeDamage(currentWeapon.GetWeaponDamage()); // removing get component and turing it into this line
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < weapon.GetWeaponRange(); //we are not using navmeshagent.remainingdistance because it is not calculating real distance, - as remainingDistance is a calculation what what actually needs to be travelled to get to the location.
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange(); //we are not using navmeshagent.remainingdistance because it is not calculating real distance, - as remainingDistance is a calculation what what actually needs to be travelled to get to the location.
         }
 
         public void Attack(GameObject combatTarget)
@@ -84,9 +85,9 @@ namespace RPG.Combat
             return targetToTest != null && !targetToTest.IsDead();
         }
 
-        private void SpawnWeapon()
+        public void EquipWeapon(Weapon weapon)
         {
-            if (weapon == null) return;
+            currentWeapon = weapon;
             Animator animator = GetComponent<Animator>();
             weapon.Spawn(handTransform, animator);
         }
