@@ -161,7 +161,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.550091
   m_ScreenY: 0.47388634
-  m_CameraDistance: 11.191418
+  m_CameraDistance: 8
   m_DeadZoneWidth: 0.009708552
   m_DeadZoneHeight: 0.0112135485
   m_DeadZoneDepth: 0
