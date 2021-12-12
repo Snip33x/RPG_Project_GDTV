@@ -14,7 +14,7 @@ namespace RPG.Combat
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
 
-        Health target; //!!!! FIND OUT how this target is set up-- its dont in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
+        Health target; //!!!! FIND OUT how this target is set up-- its not in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
         float timeSinceLastAttack = Mathf.Infinity; //before we had 0, and it took long time for our character to attack at start
         Weapon currentWeapon = null;
 
@@ -57,7 +57,7 @@ namespace RPG.Combat
         private void TriggerAttack()
         {
             GetComponent<Animator>().ResetTrigger("stopAttack"); // Removin BUG that causes our character to attack - stop attack glitch, when we canceled attack before and moved away, test higher timebetweenattacks to see clearly
-            GetComponent<Animator>().SetTrigger("attack"); //setting up attack animatior
+            GetComponent<Animator>().SetTrigger("attack"); //setting up attack animator
         }
 
         // Animation Event
