@@ -4,25 +4,27 @@ using UnityEngine;
 using RPG.Movement;
 using UnityEngine.AI;
 using RPG.Core;
+using RPG.Saving;
 
 namespace RPG.Combat
 {    
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
-        [SerializeField] string defaultWeaponName = "Unarmed"; 
 
         Health target; //!!!! FIND OUT how this target is set up-- its not in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
         float timeSinceLastAttack = Mathf.Infinity; //before we had 0, and it took long time for our character to attack at start
         Weapon currentWeapon = null;
 
         private void Start()
-        {
-            Weapon weapon = Resources.Load<Weapon>(defaultWeaponName); //names relative in Resources Folder
-            EquipWeapon(weapon);
+        {   
+            if(currentWeapon == null) //defend when loading into game, the saved weapon will come first
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         private void Update()
@@ -120,6 +122,25 @@ namespace RPG.Combat
         {
             GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttack"); //trigger in transition to make our character immidietly stop attacking animation when we move
+        }
+
+        public object CaptureState()
+        {
+            //Debug.Log($"CaptureState - {currentWeapon.name}");
+            return currentWeapon.name;
+        }
+        //names relative in Resources Folder
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            //Debug.Log($"RestoreState -- {weaponName}");
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            if (weapon == null)
+            {
+                //Debug.Log("The weapon was not found in Resources");
+                return;
+            }
+            EquipWeapon(weapon);
         }
     }
 
