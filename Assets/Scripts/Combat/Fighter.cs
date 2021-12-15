@@ -13,6 +13,7 @@ namespace RPG.Combat
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] string defaultWeaponName = "Unarmed"; 
 
         Health target; //!!!! FIND OUT how this target is set up-- its not in Attack method:)  //we changed it from transform to health to be more specific , no need to getcomponent now
         float timeSinceLastAttack = Mathf.Infinity; //before we had 0, and it took long time for our character to attack at start
@@ -20,7 +21,8 @@ namespace RPG.Combat
 
         private void Start()
         {
-            EquipWeapon(defaultWeapon);
+            Weapon weapon = Resources.Load<Weapon>(defaultWeaponName); //names relative in Resources Folder
+            EquipWeapon(weapon);
         }
 
         private void Update()
