@@ -36,9 +36,16 @@ namespace RPG.Combat
                 GameObject weapon = Instantiate(equippedPrefab, handTransform);
                 weapon.name = weaponName; //naming our weapon gameObject
             }
+            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
-            {
+            {                
                 animator.runtimeAnimatorController = animatorOverride;
+            }
+            else if (overrideController != null) //we had bug - when we don't have animatorOverrideController attached to weapon, and we were using another weapon before it, the last weapon animator would work for that weapon, now the default animation is punch
+            {                
+                {
+                    animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
+                }
             }
         }
 
