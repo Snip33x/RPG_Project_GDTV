@@ -11,6 +11,9 @@ namespace RPG.Combat
         [SerializeField] float projectileSped = 1f;
         [SerializeField] bool isHoming = true; // chasing target
         [SerializeField] GameObject hitEffect = null;
+        [SerializeField] float timeToDestroy = 10f;
+        [SerializeField] GameObject[] destroyOnHit = null;
+        [SerializeField] float lifeAfterImpact = 2f;
 
         Health target = null;
         float damage = 0;
@@ -19,6 +22,7 @@ namespace RPG.Combat
         private void Start()  
         {
             transform.LookAt(GetAimLocation());  //everytime projectile is Instantiated we set target location
+            Destroy(gameObject, timeToDestroy);
         }
 
         void Update()
@@ -55,11 +59,20 @@ namespace RPG.Combat
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return; //if enemy is dead don't try to give any damage and don't destroy object
             target.TakeDamage(damage);
+
+            projectileSped = 0; //prevent arrow from going further the target - it's happening because fireball is part destroyed within below code ,and this line is alsom making projectile trail to partly vanish
+
             if(hitEffect != null)
             {
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
-            Destroy(gameObject);
+
+            foreach (GameObject toDestroy in destroyOnHit) //first destroy fireball's head, then rest after 2 secs
+            {
+                Destroy(toDestroy);
+            }
+
+            Destroy(gameObject, lifeAfterImpact);
 
         }
     }
