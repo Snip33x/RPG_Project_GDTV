@@ -10,6 +10,7 @@ namespace RPG.Combat
     {
         [SerializeField] float projectileSped = 1f;
         [SerializeField] bool isHoming = true; // chasing target
+        [SerializeField] GameObject hitEffect = null;
 
         Health target = null;
         float damage = 0;
@@ -54,6 +55,10 @@ namespace RPG.Combat
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return; //if enemy is dead don't try to give any damage and don't destroy object
             target.TakeDamage(damage);
+            if(hitEffect != null)
+            {
+                Instantiate(hitEffect, GetAimLocation(), transform.rotation);
+            }
             Destroy(gameObject);
 
         }

@@ -68,6 +68,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6721870940989181431, guid: bec7a29828084894b90276845751b5f2, type: 3}
+      propertyPath: hitEffect
+      value: 
+      objectReference: {fileID: 5945279197171551551, guid: 4d2a54e99fa765d4ba2b4b662db28230, type: 3}
+    - target: {fileID: 6721870940989181431, guid: bec7a29828084894b90276845751b5f2, type: 3}
       propertyPath: projectileSped
       value: 20
       objectReference: {fileID: 0}
