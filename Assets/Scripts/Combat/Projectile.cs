@@ -13,6 +13,7 @@ namespace RPG.Combat
         [SerializeField] float lifeAfterImpact = 2f;
 
         Health target = null;
+        GameObject instigator = null;
         float damage = 0;
 
         private void Start()  
@@ -34,10 +35,11 @@ namespace RPG.Combat
 
         }
 
-        public void SetTarget(Health target, float damage) //we are calculating damage done by projectile at the shoot moment
+        public void SetTarget(Health target, GameObject instigator, float damage) //we are calculating damage done by projectile at the shoot moment
         {
             this.target = target;
             this.damage = damage;
+            this.instigator = instigator;
         }
 
         private Vector3 GetAimLocation() //make our arrow shot at the center mass of the target
@@ -54,7 +56,7 @@ namespace RPG.Combat
         {
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return; //if enemy is dead don't try to give any damage and don't destroy object
-            target.TakeDamage(damage);
+            target.TakeDamage(instigator, damage);
 
             projectileSped = 0; //prevent arrow from going further the target - it's happening because fireball is part destroyed within below code ,and this line is alsom making projectile trail to partly vanish
 

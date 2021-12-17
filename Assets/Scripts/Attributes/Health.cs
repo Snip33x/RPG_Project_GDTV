@@ -4,6 +4,7 @@ using UnityEngine;
 using RPG.Saving;
 using RPG.Core;
 using RPG.Stats;
+using System;
 
 namespace RPG.Attributes
 {
@@ -24,7 +25,7 @@ namespace RPG.Attributes
             return isDead;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)  //instigator - the one that started the fight will be granted with xp
         {
             //health -= damage; // my example to make health not go beyond 0
             //if (health < 0)
@@ -34,8 +35,11 @@ namespace RPG.Attributes
             if(healthPoints <= 0)
             {
                 Die();
+                AwardExperience(instigator); // we need to tell who will gain the experience - the instigator
             }
         }
+
+
 
         public float GetPercentage()
         {
@@ -49,6 +53,14 @@ namespace RPG.Attributes
             isDead = true;
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        private void AwardExperience(GameObject instigator)
+        {
+            Experience experience = instigator.GetComponent<Experience>();
+            if (experience == null) return;
+
+            experience.GainExperience(GetComponent<BaseStats>().GetExperienceReward());
         }
 
         #region Saveable Interface
