@@ -11,7 +11,12 @@ namespace RPG.SceneManagement
         const string defaultSaveFile = "save";  //SavingWrapper is that if we use it in different project we can choose different place to save, or slot
         [SerializeField] float fadeInTime = 0.2f;
 
-        IEnumerator Start() //it calls start as a coroutine
+
+        private void Awake() // we had bug where lvl wasn't updated when we saved, and then loaded game so we call this first, we restore state, and then call every start
+        {
+            StartCoroutine(LoadLastScene());
+        }
+        IEnumerator LoadLastScene() //it calls start as a coroutine
         {
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();

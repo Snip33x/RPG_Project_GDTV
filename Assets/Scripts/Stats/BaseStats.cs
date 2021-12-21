@@ -17,9 +17,9 @@ namespace RPG.Stats
         {
             currentLevel = CalculateLevel();
             Experience experience = GetComponent<Experience>();
-            if (experience != null)
+            if (experience != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
             {
-                experience.onExperienceGained += UpdateLevel; //+= is subsctibing to delegate
+                experience.onExperienceGained += UpdateLevel; //+= is subsctibing to delegate, event is Experience prevent it from overwriting
             }
         }
 
