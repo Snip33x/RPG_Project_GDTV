@@ -49,7 +49,7 @@ namespace RPG.Stats
 
         public float GetStat(Stat stat)
         {
-            return progression.GetStat(stat, characterClass, GetLevel());
+            return progression.GetStat(stat, characterClass, GetLevel()) + GetAdditiveModifier(stat); //GetAdditiveModifier(stat) - stat is a character current level damage
         }
 
         public int GetLevel()
@@ -61,7 +61,21 @@ namespace RPG.Stats
             return currentLevel;
         }
 
-        public int CalculateLevel()
+        private float GetAdditiveModifier(Stat stat)
+        {
+            float total = 0;
+            foreach (IModifierProvider provider in this.GetComponents<IModifierProvider>()) //In short, the interface not only says "I do solomly swear to implement these methods in my script’, it also allows you go gather all scripts that implement these methods into a collection. Because of Interfaces, BaseStats doesn’t have to know anything about Fighter. No need to add a using RPG.Combat. It’s not required in the least. It just needs to know that the object it has retrieved is an IModifierProvider, nothing more.  //Bear in mind that this also means that BaseStats can ONLY see GetAdditiveModifiers() and GetPercentageModifiers(). It can’t access anything else that is not in the interface. It can’t look at the transform, or tell what the current target is, or anything else. That’s by design, all BaseStats needs to know is “Hey, all you IModifierProviders out there, would you please be so kind as to tally up the AdditiveModifiers for me?”
+            {
+                foreach (float modifier in provider.GetAdditiveModifier(stat)) //this is a call to a Fighter for example because it has current weapon dmg in float to return and it will sum all the modifiers to return full dmg
+                {
+                    total += modifier;
+                }
+            }
+            return total;
+            
+        }
+
+        private int CalculateLevel()
         {
             Experience experience = GetComponent<Experience>();
 
@@ -81,5 +95,7 @@ namespace RPG.Stats
 
             return penultimateLevel + 1; //experience was higher then lvl, so we must be above
         }
+
+
     }
 }

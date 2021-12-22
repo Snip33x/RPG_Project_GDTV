@@ -10,7 +10,7 @@ using RPG.Stats;
 
 namespace RPG.Combat
 {    
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] Transform rightHandTransform = null;
@@ -132,6 +132,15 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("stopAttack"); //trigger in transition to make our character immidietly stop attacking animation when we move
         }
 
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return currentWeapon.GetWeaponDamage();
+            }
+        }
+
+        #region Save System
         public object CaptureState()
         {
             //Debug.Log($"CaptureState - {currentWeapon.name}");
@@ -150,6 +159,8 @@ namespace RPG.Combat
             }
             EquipWeapon(weapon);
         }
+        #endregion
+
     }
 
 }
