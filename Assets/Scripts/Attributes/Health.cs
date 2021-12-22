@@ -10,6 +10,8 @@ namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
+        //[SerializeField] float regenerationPercentage = 70;  //regen 70% of hp, instead of 100% when lvlup, rest of code in RegenerateHP()
+
         float healthPoints = -1f;
 
         bool isDead = false;
@@ -20,7 +22,13 @@ namespace RPG.Attributes
             {
                 healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
             }
+            BaseStats basestats = GetComponent<BaseStats>();
+            if (basestats != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
+            {
+                basestats.onLevelUp += RegenerateHP; //+= is subsctibing to delegate, event is Experience prevent it from overwriting
+            }
         }
+
 
 
         public bool IsDead()
@@ -64,6 +72,14 @@ namespace RPG.Attributes
             if (experience == null) return;
 
             experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
+        }
+
+        private void RegenerateHP()
+        {
+            // Regenerate to over 70% of max hp of new LVL, but if we have more like 90 % dont do anything
+            //float regenHealthPoints = GetComponent<BaseStats>().GetStat(Stat.Health) * (regenerationPercentage / 100);
+            //healthPoints = Mathf.Max(healthPoints, regenHealthPoints);
+            healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
         }
 
         #region Saveable Interface
