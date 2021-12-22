@@ -38,6 +38,8 @@ namespace RPG.Attributes
 
         public void TakeDamage(GameObject instigator, float damage)  //instigator - the one that started the fight will be granted with xp
         {
+            print(gameObject.name + " took damage: " + damage);
+
             //health -= damage; // my example to make health not go beyond 0
             //if (health < 0)
             //    health = 0;
@@ -50,7 +52,15 @@ namespace RPG.Attributes
             }
         }
 
+        public float GetHealthPoints()
+        {
+            return healthPoints;
+        }
 
+        public float GetMaxHeatlhPoints()//this is forwarding method, we use this because wo would need to make a dependency in HealthDisplay to BaseStats, and its logical that we get MaxHP from Health Component
+        {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
 
         public float GetPercentage()
         {

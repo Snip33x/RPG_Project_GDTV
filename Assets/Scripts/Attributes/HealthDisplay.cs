@@ -17,7 +17,8 @@ namespace RPG.Attributes
 
         private void Update()
         {
-            GetComponent<Text>().text = String.Format("{0:0}%",health.GetPercentage()); //take first thing on ther right - health.GetPercentage() and put it into a place where is {0}, u can add {1} for example , 0:0 - format that value, and give 0 decimal - 0:0.1 - give 1 decimal
+            //%hp GetComponent<Text>().text = String.Format("{0:0}%",health.GetPercentage()); //take first thing on ther right - health.GetPercentage() and put it into a place where is {0}, u can add {1} for example , 0:0 - format that value, and give 0 decimal - 0:0.1 - give 1 decimal
+            GetComponent<Text>().text = String.Format("{0:0}/{1:0}", health.GetHealthPoints(), health.GetMaxHeatlhPoints());
         }
     }
 
