@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a4168ea73b80a43bc66c02dec1cee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  experiencePoint: 0
+  experiencePoints: 0
 --- !u!1001 &5412507974771976939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,12 +135,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9202296720552323029}
     - target: {fileID: 6355511620089365132, guid: b1b5e2cc6169a904a9148e4bfbd6d557, type: 3}
+      propertyPath: levelUpEffect
+      value: 
+      objectReference: {fileID: 333626830195870861, guid: 48f127c5a9b51fc4b81662aff0f71ab8, type: 3}
+    - target: {fileID: 6355511620089365132, guid: b1b5e2cc6169a904a9148e4bfbd6d557, type: 3}
       propertyPath: startingLevel
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6355511620089365132, guid: b1b5e2cc6169a904a9148e4bfbd6d557, type: 3}
       propertyPath: characterClass
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355511620089365132, guid: b1b5e2cc6169a904a9148e4bfbd6d557, type: 3}
+      propertyPath: shouldUseModifiers
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6910706946684756613, guid: b1b5e2cc6169a904a9148e4bfbd6d557, type: 3}
       propertyPath: uniqueIdentifier
