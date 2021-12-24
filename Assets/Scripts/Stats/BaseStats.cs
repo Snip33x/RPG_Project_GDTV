@@ -20,7 +20,7 @@ namespace RPG.Stats
 
         private void Start()
         {
-            currentLevel = CalculateLevel();
+            currentLevel = CalculateLevel(); //Data Race
             Experience experience = GetComponent<Experience>();
             if (experience != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
             {
@@ -48,7 +48,7 @@ namespace RPG.Stats
             }
         }
 
-        public float GetStat(Stat stat)
+        public float GetStat(Stat stat) //Data Race
         {
             return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat)/100); //GetAdditiveModifier(stat) - stat argument is a character current level damage // multiply by 1.1 dmg for example
         }
@@ -56,10 +56,10 @@ namespace RPG.Stats
 
         private float GetBaseStat(Stat stat)
         {
-            return progression.GetStat(stat, characterClass, GetLevel());
+            return progression.GetStat(stat, characterClass, GetLevel()); //Data Race
         }
 
-        public int GetLevel()
+        public int GetLevel() //Data Race
         {
             if(currentLevel <1)
             {
