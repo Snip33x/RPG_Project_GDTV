@@ -1,3 +1,4 @@
+using GameDevTV.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,20 +17,26 @@ namespace RPG.Stats
 
         public event Action onLevelUp;
 
-        int currentLevel = 0;
+        LazyValue<int> currentLevel;
 
         Experience experience;
 
         private void Awake()
         {
             experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(GetInitialCurrentLevel); // we can also just pass CalculateLevel here
         }
 
         private void Start()
         {
-            currentLevel = CalculateLevel(); //Data Race
-
+            currentLevel.ForceInit();
         }
+
+        private int GetInitialCurrentLevel()
+        {
+            return CalculateLevel();
+        }
+
 
         private void OnEnable()
         {
@@ -50,9 +57,9 @@ namespace RPG.Stats
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > currentLevel)
+            if (newLevel > currentLevel.value)
             {
-                currentLevel = newLevel;
+                currentLevel.value = newLevel;
                 onLevelUp();
                 LevelUpEffect();
             }
@@ -80,11 +87,7 @@ namespace RPG.Stats
 
         public int GetLevel() //Data Race
         {
-            if(currentLevel <1)
-            {
-                currentLevel = CalculateLevel();
-            }
-            return currentLevel;
+            return currentLevel.value;
         }
 
         private float GetAdditiveModifier(Stat stat)
