@@ -16,20 +16,36 @@ namespace RPG.Attributes
 
         bool isDead = false;
 
+        BaseStats basestats;
+
+        private void Awake()
+        {
+            basestats = GetComponent<BaseStats>();
+        }
+
         private void Start()
         {
             if (healthPoints < 0) // if we killed guard and saved, and then played game again, saved and played again the guard was alive, because his health was set to 40, and the reason was that restore state wass called before setting health with our system
             {
                 healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health); //Data Race
-            }
-            BaseStats basestats = GetComponent<BaseStats>();
+            }           
+        }
+
+        private void OnEnable()
+        {
             if (basestats != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
             {
                 basestats.onLevelUp += RegenerateHP; //+= is subsctibing to delegate, event is Experience prevent it from overwriting
             }
         }
 
-
+        private void OnDisable() //good practices
+        {
+            if (basestats != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
+            {
+                basestats.onLevelUp -= RegenerateHP;
+            }
+        }
 
         public bool IsDead()
         {

@@ -15,7 +15,7 @@ namespace RPG.Core
         {
             if (hasSpawned) return;
 
-            SpawnPersistentObjects();
+            SpawnPersistentObjects(); //it is not accesing a gameObject before awake so we are safe
 
             hasSpawned = true;
             //now our fader won't be reactivated every time we use portal when we had coroutine inside Fader to do so -early dev of fader

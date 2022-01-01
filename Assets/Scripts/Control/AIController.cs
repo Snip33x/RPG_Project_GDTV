@@ -26,14 +26,17 @@ namespace RPG.Control
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         int currentWaypointIndex = 0;
 
-        private void Start()
+        private void Awake()
         {
             fighter = GetComponent<Fighter>();
-            player = GameObject.FindWithTag("Player");
             mover = GetComponent<Mover>();
             health = GetComponent<Health>();
+            player = GameObject.FindWithTag("Player");
+        }
 
-            guardPosition = transform.position; //caching guard start Position
+        private void Start()
+        {
+            guardPosition = transform.position; //caching guard start Position //transform should not be accesed in Awake
         }
 
         private void Update()

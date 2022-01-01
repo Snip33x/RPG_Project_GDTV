@@ -13,11 +13,21 @@ namespace RPG.Cinematics
     {
         GameObject player;
 
-        private void Start()
+        private void Awake()
+        {
+            player = GameObject.FindWithTag("Player");
+        }
+
+        private void OnEnable()
         {
             GetComponent<PlayableDirector>().played += DisableControl; //played is event  ctrl+mouse on played
             GetComponent<PlayableDirector>().stopped += EnableControl; //stopped is event
-            player = GameObject.FindWithTag("Player");
+        }
+
+        private void OnDisable()
+        {
+            GetComponent<PlayableDirector>().played -= DisableControl; //played is event  ctrl+mouse on played
+            GetComponent<PlayableDirector>().stopped -= EnableControl; //stopped is event
         }
 
         void DisableControl(PlayableDirector pd) //argument must be putted here becasue in PlayabeDirectrol class -- public event Action<PlayableDirector> played;  -- in Action<> there is PlayableDirector

@@ -18,13 +18,32 @@ namespace RPG.Stats
 
         int currentLevel = 0;
 
+        Experience experience;
+
+        private void Awake()
+        {
+            experience = GetComponent<Experience>();
+        }
+
         private void Start()
         {
             currentLevel = CalculateLevel(); //Data Race
-            Experience experience = GetComponent<Experience>();
+
+        }
+
+        private void OnEnable()
+        {
             if (experience != null) //we are calling event and if there would be no subscribers , the error would be thrown, so we protect it by checking null
             {
                 experience.onExperienceGained += UpdateLevel; //+= is subsctibing to delegate, event is Experience prevent it from overwriting
+            }
+        }
+
+        private void OnDisable() //good habit to use onDisable, when onEnable is used, we are just unsubscribing not necessary
+        {
+            if (experience != null) 
+            {
+                experience.onExperienceGained -= UpdateLevel; 
             }
         }
 
