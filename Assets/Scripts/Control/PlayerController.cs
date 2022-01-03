@@ -44,12 +44,30 @@ namespace RPG.Control
                 return;
             }
 
-            if (InteractWithCombat()) return;
+            if (InteractWithComponent()) return; // we deal here with Raycastables
             if (InteractWithMovement()) return;
            
             SetCursor(CursorType.None);
             print("Nothing to do");
             //Debug.DrawRay(lastRay.origin, lastRay.direction * 100); //casting ray line
+        }
+
+        private bool InteractWithComponent()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            foreach (RaycastHit hit in hits)
+            {
+                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
+                foreach (IRaycastable raycastable in raycastables)
+                {
+                    if (raycastable.HandleRaycast(this))
+                    {
+                        SetCursor(CursorType.Combat);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool InteractWithUI()
@@ -60,31 +78,7 @@ namespace RPG.Control
                 return true;
             }
             return false;
-        }
-
-        private bool InteractWithCombat()
-        {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
-            foreach (RaycastHit hit in hits)
-            {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null) continue;
-
-                if (!GetComponent<Fighter>().CanAttack(target.gameObject)) // making our mouse skip raycasting dead bodies
-                {
-                    continue;
-                }
-
-                if (Input.GetMouseButton(0))
-                {
-                    GetComponent<Fighter>().Attack(target.gameObject);
-                }
-                SetCursor(CursorType.Combat);
-                return true; //interaction with combat should start when we hover over enemy (attack cursor)
-            }
-            return false; // we didn't find any enemies to interact with 
-        }
-
+        }      
 
         private bool InteractWithMovement()
         {

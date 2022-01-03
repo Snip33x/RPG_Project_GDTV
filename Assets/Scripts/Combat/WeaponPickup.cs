@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Control;
 
 namespace RPG.Combat
 {
-    public class WeaponPickup : MonoBehaviour
+    public class WeaponPickup : MonoBehaviour, IRaycastable
     {
         [SerializeField] Weapon weapon = null;
         [SerializeField] float timeToRespawnAnItem = 5f;
@@ -14,9 +15,14 @@ namespace RPG.Combat
         {
             if (other.gameObject.tag == "Player")
             {
-                other.GetComponent<Fighter>().EquipWeapon(weapon);
-                StartCoroutine(HideForSeconds(timeToRespawnAnItem)); //we are not disabling whole gameObject because the Coroutine would fail to run
+                Pickup(other.GetComponent<Fighter>());
             }
+        }
+
+        private void Pickup(Fighter fighter)
+        {
+            fighter.EquipWeapon(weapon);
+            StartCoroutine(HideForSeconds(timeToRespawnAnItem)); //we are not disabling whole gameObject because the Coroutine would fail to run
         }
 
         private IEnumerator HideForSeconds(float seconds) 
@@ -36,7 +42,14 @@ namespace RPG.Combat
             }
         }
 
-
+        public bool HandleRaycast(PlayerController callingController)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Pickup(callingController.GetComponent<Fighter>());
+            }
+            return true; //howering over pickup will handle this raycast, we won't be abe to walk 
+        }
     }
 }
 
