@@ -50,6 +50,11 @@ namespace RPG.Combat
             }
             return true; //howering over pickup will handle this raycast, we won't be abe to walk 
         }
+
+        public CursorType GetCursorType()
+        {
+            return CursorType.Pickup;
+        }
     }
 }
 

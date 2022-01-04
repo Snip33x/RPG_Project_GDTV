@@ -23,5 +23,9 @@ namespace RPG.Combat
             }
             return true; //interaction with combat should start when we hover over enemy (attack cursor)
         }
+        public CursorType GetCursorType()
+        {
+            return CursorType.Combat;
+        }
     }
 }
