@@ -46,7 +46,7 @@ namespace RPG.Control
 
         private bool InteractWithComponent()
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = RaycastAllSorted();
             foreach (RaycastHit hit in hits)
             {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
@@ -62,6 +62,18 @@ namespace RPG.Control
             return false;
         }
 
+        RaycastHit[] RaycastAllSorted() //we had a problem, that when we had a pickup behind an enemy, we would still have pickup cursor - it some behaviour from unity hierachy probably
+        {
+            // Get all hist, Sort by distance, build array distances, Sort the hits, Return
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            float[] distances = new float[hits.Length];
+            for (int i = 0; i < hits.Length; i++)
+            {
+                distances[i] = hits[i].distance;
+            }
+            Array.Sort(distances, hits);
+            return hits;
+        }
         private bool InteractWithUI()
         {  
             if (EventSystem.current.IsPointerOverGameObject())
