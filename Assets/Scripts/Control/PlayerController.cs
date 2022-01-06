@@ -23,6 +23,7 @@ namespace RPG.Control
 
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] float maxNavPathLength = 40f;
 
         private void Awake()
         {
@@ -115,7 +116,26 @@ namespace RPG.Control
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position; //position on naVmesh that we have casted to
+
+            NavMeshPath path =new NavMeshPath();
+            bool hasPath =  NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path); //unasigned variable means, we need to assign it :) (give it a value) or create a new - like line before
+            if (!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;  // path.status report whether the path reaches to the target, is partial, or is invalid
+            if (GetPathLenght(path) > maxNavPathLength) return false;
+
             return true;
+        }
+
+        private float GetPathLenght(NavMeshPath path)
+        {
+            float total = 0;
+            if (path.corners.Length < 2) return total; //we can't calculate if there are less than 2 corners, so return
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+
+            return total;
         }
 
         private void SetCursor(CursorType type)
