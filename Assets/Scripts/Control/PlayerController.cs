@@ -74,12 +74,12 @@ namespace RPG.Control
             {
                 distances[i] = hits[i].distance;
             }
-            Array.Sort(distances, hits);
+            Array.Sort(distances, hits); // two arrays passed to Array.Sort must be the same length
             return hits;
         }
         private bool InteractWithUI()
-        {  
-            if (EventSystem.current.IsPointerOverGameObject())
+        {
+            if (EventSystem.current.IsPointerOverGameObject()) //this refers to UI game object
             {
                 SetCursor(CursorType.UI);
                 return true;
@@ -112,7 +112,7 @@ namespace RPG.Control
             if (!hasHit) return false;
 
             NavMeshHit navMeshHit;
-            bool hasCastToNavMesh =  NavMesh.SamplePosition(hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            bool hasCastToNavMesh =  NavMesh.SamplePosition(hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas); //NavMesh.SamplePosition Find the closest position on the NavMesh
             if (!hasCastToNavMesh) return false;
 
             target = navMeshHit.position; //position on naVmesh that we have casted to
