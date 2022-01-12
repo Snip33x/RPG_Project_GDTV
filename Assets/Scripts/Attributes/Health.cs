@@ -6,12 +6,15 @@ using RPG.Core;
 using RPG.Stats;
 using System;
 using GameDevTV.Utils;
+using UnityEngine.Events;
 
 namespace RPG.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
         //[SerializeField] float regenerationPercentage = 70;  //regen 70% of hp, instead of 100% when lvlup, rest of code in RegenerateHP()
+
+        [SerializeField] UnityEvent takeDamage;
 
         LazyValue<float> healthPoints;
 
@@ -36,7 +39,7 @@ namespace RPG.Attributes
             //if (healthPoints < 0) // if we killed guard and saved, and then played game again, saved and played again the guard was alive, because his health was set to 40, and the reason was that restore state wass called before setting health with our system
             //{
             //    healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health); //Data Race
-            //}           
+            //}                        
         }
 
         private void OnEnable()
@@ -75,6 +78,10 @@ namespace RPG.Attributes
             {
                 Die();
                 AwardExperience(instigator); // we need to tell who will gain the experience - the instigator
+            }
+            else
+            {
+                takeDamage.Invoke(); //unity event
             }
         }
 
