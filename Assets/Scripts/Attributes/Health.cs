@@ -14,7 +14,13 @@ namespace RPG.Attributes
     {
         //[SerializeField] float regenerationPercentage = 70;  //regen 70% of hp, instead of 100% when lvlup, rest of code in RegenerateHP()
 
-        [SerializeField] UnityEvent takeDamage;
+        [SerializeField] TakeDamageEvent takeDamage;  //UnityEvent takeDamage;
+
+        [System.Serializable]
+        public class TakeDamageEvent : UnityEvent<float> //serialized field doesn't allow generics so we had to do this walk-around
+        {
+
+        }
 
         LazyValue<float> healthPoints;
 
@@ -81,7 +87,7 @@ namespace RPG.Attributes
             }
             else
             {
-                takeDamage.Invoke(); //unity event
+                takeDamage.Invoke(damage); //unity event
             }
         }
 
