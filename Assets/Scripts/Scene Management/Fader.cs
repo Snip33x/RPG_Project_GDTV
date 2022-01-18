@@ -7,6 +7,7 @@ namespace RPG.SceneManagement
     public class Fader : MonoBehaviour
     {
         CanvasGroup canvasGroup;
+        Coroutine currentActiveFade =null;
 
         private void Awake()  //we should set refrences in awake, and use them in start, so we won't get null refrences
         {
@@ -21,22 +22,34 @@ namespace RPG.SceneManagement
 
         public IEnumerator FadeOut(float time)
         {
-            while (canvasGroup.alpha < 1) // alpha is not 1
-            {
-                canvasGroup.alpha += Time.deltaTime / time;
-                // moving alpha toward 1
-                yield return null; //run on the next frame
-            }
+            return Fade(1, time);
         }
         public IEnumerator FadeIn(float time)
         {
-            while (canvasGroup.alpha > 0) // alpha is not 1
+            return Fade(0, time);
+        }
+       
+        public IEnumerator Fade(float target, float time)
+        {
+            if (currentActiveFade != null)
             {
-                canvasGroup.alpha -= Time.deltaTime / time;
+                StopCoroutine(currentActiveFade);
+            }
+            currentActiveFade = StartCoroutine(FadeRoutine(target, time));
+            yield return currentActiveFade;
+        }
+
+
+        private IEnumerator FadeRoutine(float target, float time) //removing bug, causing fader to never fadeout if we changed scene fast
+        {
+            while (!Mathf.Approximately(canvasGroup.alpha, target)) // alpha is not 1
+            {
+                canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, target, Time.deltaTime / time);
                 // moving alpha toward 1
                 yield return null; //run on the next frame
             }
         }
+
 
         IEnumerator FadeOutIn() //nested Coroutine
         {
