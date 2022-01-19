@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using RPG.Control;
+using RPG.Core;
 
 namespace RPG.SceneManagement
 {
@@ -40,30 +42,40 @@ namespace RPG.SceneManagement
                 yield break;
             }
 
+            player = GameObject.FindWithTag("Player");
+
             DontDestroyOnLoad(gameObject);  //dont destroy the portal until the new world has loaded up
             
             Fader fader = FindObjectOfType<Fader>();
+            //save current level
+            SavingWrapper savingWrapper = FindObjectOfType<SavingWrapper>(); //saving wrapper is in hierarchy Core->PersistentObject Prefab-> Saving Children
+            // remove control
+            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerController.enabled = false;
 
             yield return fader.FadeOut(fadeOutTime);
 
-            //save current level
-            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>(); //saving wrapper is in hierarchy Core->PersistentObject Prefab-> Saving Children
-            wrapper.Save();
+            savingWrapper.Save();
 
             yield return SceneManager.LoadSceneAsync(sceneToLoad);  //Unity knows that it needs to run this coroutine once the scene is loaded
+            PlayerController newplayerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>(); //new player in new scene
+            newplayerController.enabled = false;
+
 
             // Load current level
-            wrapper.Load();
+            savingWrapper.Load();
             
 
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal); //updating player position
 
-            wrapper.Save();
+            savingWrapper.Save();
 
             yield return new WaitForSeconds(fadeWaitTime); //wait for Camera to stabilize
-            yield return fader.FadeIn(fadeInTime);
+            fader.FadeIn(fadeInTime);
 
+
+            newplayerController.enabled = true;
             Destroy(gameObject); //job of this current Portal is done so we destroy it
         }
 
@@ -88,6 +100,8 @@ namespace RPG.SceneManagement
             player.transform.rotation = otherPortal.spawnPoint.rotation;
             player.GetComponent<NavMeshAgent>().enabled = true;
         }
+
+
 
     }
 }
