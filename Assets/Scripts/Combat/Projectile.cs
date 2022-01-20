@@ -1,5 +1,6 @@
 using RPG.Attributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat
 {
@@ -11,6 +12,8 @@ namespace RPG.Combat
         [SerializeField] float timeToDestroy = 10f;
         [SerializeField] GameObject[] destroyOnHit = null;
         [SerializeField] float lifeAfterImpact = 2f;
+        [SerializeField] UnityEvent onProjectileHit;
+
 
         Health target = null;
         GameObject instigator = null;
@@ -56,11 +59,14 @@ namespace RPG.Combat
         {
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return; //if enemy is dead don't try to give any damage and don't destroy object
+            
             target.TakeDamage(instigator, damage);
 
             projectileSped = 0; //prevent arrow from going further the target - it's happening because fireball is part destroyed within below code ,and this line is alsom making projectile trail to partly vanish
 
-            if(hitEffect != null)
+            onProjectileHit.Invoke();
+
+            if (hitEffect != null)
             {
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
