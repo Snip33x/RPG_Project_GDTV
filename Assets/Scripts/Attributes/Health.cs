@@ -93,6 +93,22 @@ namespace RPG.Attributes
             }
         }
 
+        public void Heal(float healthToRestore)
+        {
+            /*float maxHealth = GetComponent<BaseStats>().GetStat(Stat.Health);
+            if (healthPoints.value + healthAdded > maxHealth)
+            {
+                healthPoints.value = maxHealth;
+            }
+            else
+            {
+                healthPoints.value += healthAdded;
+            }*/
+            healthPoints.value = Mathf.Min(healthPoints.value + healthToRestore, GetMaxHeatlhPoints());
+
+        }
+
+
         public float GetHealthPoints()
         {
             return healthPoints.value;
@@ -107,6 +123,7 @@ namespace RPG.Attributes
         {
             return 100 * (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health));
         }
+
 
         private void Die()
         {

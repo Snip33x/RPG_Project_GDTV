@@ -3,25 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Control;
+using RPG.Attributes;
 
 namespace RPG.Combat
 {
     public class WeaponPickup : MonoBehaviour, IRaycastable
     {
         [SerializeField] WeaponConfig weapon = null;
+        [SerializeField] float healthToRestore = 0;
         [SerializeField] float timeToRespawnAnItem = 5f;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
-                Pickup(other.GetComponent<Fighter>());
+                Pickup(other.gameObject);
             }
         }
 
-        private void Pickup(Fighter fighter)
+        private void Pickup(GameObject subjcet)
         {
-            fighter.EquipWeapon(weapon);
+            if (weapon != null)
+            {
+                subjcet.GetComponent<Fighter>().EquipWeapon(weapon);
+            }
+            if (healthToRestore > 0)
+            {
+                subjcet.GetComponent<Health>().Heal(healthToRestore);
+            }
             StartCoroutine(HideForSeconds(timeToRespawnAnItem)); //we are not disabling whole gameObject because the Coroutine would fail to run
         }
 
@@ -46,7 +55,7 @@ namespace RPG.Combat
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Pickup(callingController.GetComponent<Fighter>());
+                Pickup(callingController.gameObject);
             }
             return true; //howering over pickup will handle this raycast, we won't be abe to walk 
         }

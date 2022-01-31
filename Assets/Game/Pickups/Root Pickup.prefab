@@ -44,7 +44,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.73
-  m_Center: {x: -0.22, y: -0.17, z: -0.61}
+  m_Center: {x: -0.04, y: 0.11, z: -0.03}
 --- !u!114 &8722694636534706032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,3 +58,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 11400000, guid: f4526f2d4d26f5646baf5645b6d9a376, type: 2}
+  timeToRespawnAnItem: 5
