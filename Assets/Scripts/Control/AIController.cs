@@ -10,7 +10,8 @@ namespace RPG.Control
     public class AIController : MonoBehaviour
     {
         [SerializeField] float chaseDistance = 5f;
-        [SerializeField] float suspicionTime = 5f;
+        [SerializeField] float suspicionTime = 3f;
+        [SerializeField] float aggroCooldownTime = 5f;
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float waypointTolerance = 1f;
         [SerializeField] float waypointDwellTime = 3f;
@@ -23,8 +24,9 @@ namespace RPG.Control
         Health health;
 
         LazyValue<Vector3> guardPosition;
-        float timeSinceLastSawPlayer = Mathf.Infinity;
+        float timeSinceLastSawPlayer = Mathf.Infinity;  //Mathf.Infinity means we start at timeSinceLastSawplayer is never for enemy// enemy thinks he never saw us before
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+        float timeSinceAggrevated = Mathf.Infinity;
         int currentWaypointIndex = 0;
 
         private void Awake()
@@ -51,7 +53,7 @@ namespace RPG.Control
         {
             if (health.IsDead()) { return; }
 
-            if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            if (IsAggrevated() && fighter.CanAttack(player))
             {
                 AttackBehaviour();
             }
@@ -67,10 +69,16 @@ namespace RPG.Control
             UpdateTimers();
         }
 
-        private void UpdateTimers()
+        public void Aggrevate()
+        {
+            timeSinceAggrevated = 0;
+        }
+
+        private void UpdateTimers() // we do growing timers because of floating point numbers
         {
             timeSinceLastSawPlayer += Time.deltaTime;
             timeSinceArrivedAtWaypoint += Time.deltaTime;
+            timeSinceAggrevated += Time.deltaTime;
         }
 
         //Behaviours
@@ -121,12 +129,13 @@ namespace RPG.Control
 
         #endregion
 
-        private bool InAttackRangeOfPlayer()
+        private bool IsAggrevated()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            return distanceToPlayer < chaseDistance;
+            return distanceToPlayer < chaseDistance || timeSinceAggrevated < aggroCooldownTime;
         }
 
+        //Called by Unity
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
