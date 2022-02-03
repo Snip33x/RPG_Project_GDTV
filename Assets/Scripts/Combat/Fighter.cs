@@ -48,7 +48,7 @@ namespace RPG.Combat
 
             if (target.IsDead()) return;
 
-            if (!GetIsInRange()) //if (target != null && !GetIsInRange()) IMPORTANT NOTE  && operator, if the first thing is false it skips evaluating the second because the result will alwyas be false -- optimalization! - this way we got rid of null reference error -- eventualy we had a problem here that we were stopping character all the time, so return early //quiz Bacis Combat #1
+            if (!GetIsInRange(target.transform)) //if (target != null && !GetIsInRange()) IMPORTANT NOTE  && operator, if the first thing is false it skips evaluating the second because the result will alwyas be false -- optimalization! - this way we got rid of null reference error -- eventualy we had a problem here that we were stopping character all the time, so return early //quiz Bacis Combat #1
             {
                 GetComponent<Mover>().MoveTo(target.transform.position, 1f); //1f= moving at full speed
             }
@@ -104,9 +104,9 @@ namespace RPG.Combat
             Hit();
         }
 
-        private bool GetIsInRange()
+        private bool GetIsInRange(Transform targetTransform)
         {
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeaponConfig.GetWeaponRange(); //we are not using navmeshagent.remainingdistance because it is not calculating real distance, - as remainingDistance is a calculation what what actually needs to be travelled to get to the location.
+            return Vector3.Distance(transform.position, targetTransform.position) < currentWeaponConfig.GetWeaponRange(); //we are not using navmeshagent.remainingdistance because it is not calculating real distance, - as remainingDistance is a calculation what what actually needs to be travelled to get to the location.
         }
 
         public void Attack(GameObject combatTarget)
@@ -119,7 +119,11 @@ namespace RPG.Combat
         public bool CanAttack(GameObject combatTarget)  //making our raycast not hit dead bodies -- using this method in player Controller
         {
             if (combatTarget == null) { return false; }
-            if (!GetComponent<Mover>().CanMoveTo(combatTarget.transform.position)) { return false; }
+            if (!GetComponent<Mover>().CanMoveTo(combatTarget.transform.position) &&                
+                !GetIsInRange(combatTarget.transform)) 
+            { 
+                return false; 
+            }
             Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
