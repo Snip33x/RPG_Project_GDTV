@@ -10,6 +10,7 @@ namespace RPG.Movement
     {
         [SerializeField] Transform target;
         [SerializeField] float maxSpeed = 6f;
+        [SerializeField] float maxNavPathLength = 40f;
 
         NavMeshAgent navMeshAgent;
         Health health;
@@ -32,6 +33,19 @@ namespace RPG.Movement
             GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination, speedFraction);
         }
+
+        public bool CanMoveTo(Vector3 destination)
+        {
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, destination, NavMesh.AllAreas, path); //unasigned variable means, we need to assign it :) (give it a value) or create a new - like line before
+            if (!hasPath) return false;
+            if (path.status != NavMeshPathStatus.PathComplete) return false;  // path.status report whether the path reaches to the target, is partial, or is invalid           
+            if (GetPathLenght(path) > maxNavPathLength) return false;
+
+            return true;
+
+        }
+
 
         public void MoveTo(Vector3 destination, float speedFraction)  //interface 
         {
@@ -59,6 +73,17 @@ namespace RPG.Movement
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
         }
 
+        private float GetPathLenght(NavMeshPath path)
+        {
+            float total = 0;
+            if (path.corners.Length < 2) return total; //we can't calculate if there are less than 2 corners, so return
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+
+            return total;
+        }
 
 
         #region Saveabe Interface
