@@ -23,6 +23,7 @@ namespace RPG.Control
 
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] float raycastRadius = 1f;
 
         private void Awake()
         {
@@ -67,7 +68,7 @@ namespace RPG.Control
         RaycastHit[] RaycastAllSorted() //we had a problem, that when we had a pickup behind an enemy, we would still have pickup cursor - it some behaviour from unity hierachy probably
         {
             // Get all hist, Sort by distance, build array distances, Sort the hits, Return
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = Physics.SphereCastAll(GetMouseRay(), raycastRadius); //much easier to target enemy with spherecastall
             float[] distances = new float[hits.Length];
             for (int i = 0; i < hits.Length; i++)
             {
