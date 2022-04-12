@@ -1,33 +1,58 @@
 using System;
 using System.Collections.Generic;
-using RPG.Core;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace RPG.Saving
+namespace GameDevTV.Saving
 {
-    [ExecuteAlways] //executes whenever we do anything in editing mode, for example, moving a mouse in edit window
-    public class SaveableEntity : MonoBehaviour //SaveableEntity - we put it on any game object that has Isaveable that we want to keep track off, it generated unique IDidentifier, with no overlapses in the scene
+    /// <summary>
+    /// To be placed on any GameObject that has ISaveable components that
+    /// require saving.
+    ///
+    /// This class gives the GameObject a unique ID in the scene file. The ID is
+    /// used for saving and restoring the state related to this GameObject. This
+    /// ID can be manually override to link GameObjects between scenes (such as
+    /// recurring characters, the player or a score board). Take care not to set
+    /// this in a prefab unless you want to link all instances between scenes.
+    /// </summary>
+    [ExecuteAlways]
+    public class SaveableEntity : MonoBehaviour
     {
-        [SerializeField] string uniqueIdentifier = ""; //unset ID at start
-        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();  //static lives through whole application
+        // CONFIG DATA
+        [Tooltip("The unique ID is automatically generated in a scene file if " +
+        "left empty. Do not set in a prefab unless you want all instances to " + 
+        "be linked.")]
+        [SerializeField] string uniqueIdentifier = "";
+
+        // CACHED STATE
+        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
 
         public string GetUniqueIdentifier()
         {
             return uniqueIdentifier;
         }
 
+        /// <summary>
+        /// Will capture the state of all `ISaveables` on this component and
+        /// return a `System.Serializable` object that can restore this state
+        /// later.
+        /// </summary>
         public object CaptureState()
         {
             Dictionary<string, object> state = new Dictionary<string, object>();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())  //loping over components that has ISaveable, and asking them to capture states
+            foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
-                state[saveable.GetType().ToString()] = saveable.CaptureState();  //capture string for example of "mover" and store it and it's state in dictionary //in compile time we would get Type Isaveable, but in runtime it changes, and we get desired type of component
+                state[saveable.GetType().ToString()] = saveable.CaptureState();
             }
             return state;
         }
 
+        /// <summary>
+        /// Will restore the state that was captured by `CaptureState`.
+        /// </summary>
+        /// <param name="state">
+        /// The same object that was returned by `CaptureState`.
+        /// </param>
         public void RestoreState(object state)
         {
             Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
@@ -41,17 +66,19 @@ namespace RPG.Saving
             }
         }
 
-#if UNITY_EDITOR //this code is removed from build 
+        // PRIVATE
+
+#if UNITY_EDITOR
         private void Update() {
-            if (Application.IsPlaying(gameObject)) return; //check if we are playing
-            if (string.IsNullOrEmpty(gameObject.scene.path)) return; //we don't want to give an ID to prefab // prefab does't have path
+            if (Application.IsPlaying(gameObject)) return;
+            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
 
             SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
             
             if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
             {
-                property.stringValue = System.Guid.NewGuid().ToString();  //128 bit codes generated randomly, globally unique idntifier (guid) / universally unique identifier - UUiD there is a chance that 2 same ID's will be generated but it's super small chances
+                property.stringValue = System.Guid.NewGuid().ToString();
                 serializedObject.ApplyModifiedProperties();
             }
 
@@ -59,13 +86,13 @@ namespace RPG.Saving
         }
 #endif
 
-        private bool IsUnique(string candidate)  //when duplicating, for example enemy, the UUID was't generating a new ID, this method makes our system to genereate new ID when we copy enemy
+        private bool IsUnique(string candidate)
         {
             if (!globalLookup.ContainsKey(candidate)) return true;
 
             if (globalLookup[candidate] == this) return true;
 
-            if (globalLookup[candidate] == null)  // when changing scenes, enemies are no longer changing UUID's
+            if (globalLookup[candidate] == null)
             {
                 globalLookup.Remove(candidate);
                 return true;

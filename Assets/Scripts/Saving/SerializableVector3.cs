@@ -1,19 +1,29 @@
 using UnityEngine;
 
-namespace RPG.Saving
+namespace GameDevTV.Saving
 {
-    [System.Serializable]  //serialization is proces of taking important data , and turning it into binary, and once data is in binary we can store it, send save etc - oposite process is deserialization
+    /// <summary>
+    /// A `System.Serializable` wrapper for the `Vector3` class.
+    /// </summary>
+    [System.Serializable]
     public class SerializableVector3
     {
-        float x, y, z;  // float (single precision) = 32 bits 6-9 digits // double (precision) = 64 bits 15-17 digits, double is much more precise, but takes longer for computer to utilize, thats why we mostly use float in game dev
+        float x, y, z;
 
-        public SerializableVector3(Vector3 vector) //constructor
+        /// <summary>
+        /// Copy over the state from an existing Vector3.
+        /// </summary>
+        public SerializableVector3(Vector3 vector)
         {
             x = vector.x;
             y = vector.y;
             z = vector.z;
         }
 
+        /// <summary>
+        /// Create a Vector3 from this class' state.
+        /// </summary>
+        /// <returns></returns>
         public Vector3 ToVector()
         {
             return new Vector3(x, y, z);

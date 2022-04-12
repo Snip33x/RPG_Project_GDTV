@@ -7,48 +7,66 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RPG.Saving
+namespace GameDevTV.Saving
 {
-    public class SavingSystem : MonoBehaviour // SavingSystem ties everything together, looks for all Isaveables, saves them into a file, keeps track of lastbuildIndex, and restores that
+    /// <summary>
+    /// This component provides the interface to the saving system. It provides
+    /// methods to save and restore a scene.
+    ///
+    /// This component should be created once and shared between all subsequent scenes.
+    /// </summary>
+    public class SavingSystem : MonoBehaviour
     {
-        public IEnumerator LoadLastScene(string saveFile) //without it, if we saved in scene 2 and loaded in scene 1 , because our player prefab ID is same we would load in scene 1 with scene 2 paremeters
+        /// <summary>
+        /// Will load the last scene that was saved and restore the state. This
+        /// must be run as a coroutine.
+        /// </summary>
+        /// <param name="saveFile">The save file to consult for loading.</param>
+        public IEnumerator LoadLastScene(string saveFile)
         {
-            //below 1 get state, 2 load last scene, 3 restore state
             Dictionary<string, object> state = LoadFile(saveFile);
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (state.ContainsKey("lastSceneBuildIndex")) //we are checking if we have a saved file
+            if (state.ContainsKey("lastSceneBuildIndex"))
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex); // we are putting loadingScene in coroutine becuase it can taka a long time to load
+            yield return SceneManager.LoadSceneAsync(buildIndex);
             RestoreState(state);
         }
 
+        /// <summary>
+        /// Save the current scene to the provided save file.
+        /// </summary>
         public void Save(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);  //this is used to not overwrite scenes, we first load, check file and then save other information 
+            Dictionary<string, object> state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
 
-        public void Load(string saveFile)
-        {
-            RestoreState(LoadFile(saveFile));
-        }
-
+        /// <summary>
+        /// Delete the state in the given save file.
+        /// </summary>
         public void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
 
+        // PRIVATE
+
+        private void Load(string saveFile)
+        {
+            RestoreState(LoadFile(saveFile));
+        }
+
         private Dictionary<string, object> LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
-            if (!File.Exists(path))  //when we are saving we are first checking if there is a file before, and if this is a first save we are gettin error, so we make check here
+            if (!File.Exists(path))
             {
-                return new Dictionary<string, object>(); //this is just an empty dictionary
+                return new Dictionary<string, object>();
             }
-            using (FileStream stream = File.Open(path, FileMode.Open))  //using is closing file automatically 
+            using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return (Dictionary<string, object>)formatter.Deserialize(stream);
@@ -88,7 +106,7 @@ namespace RPG.Saving
             }
         }
 
-        private string GetPathFromSaveFile(string saveFile)  //makes our save file to be saved in a right path iOS, windows, android - C# adventage
+        private string GetPathFromSaveFile(string saveFile)
         {
             return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
