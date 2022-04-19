@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ec5f98e9c8c7c479d7159bb5d53114, type: 3}
   m_Name: BlueBow
   m_EditorClassIdentifier: 
+  itemID: d187b0c2-5a61-4ae2-a125-3d8fa9121486
+  displayName: Blue Bow
+  description: 
+  icon: {fileID: 21300000, guid: f8078c2bb5ee88d4a9472f76e501e0f3, type: 3}
+  pickup: {fileID: 7773205511321066840, guid: 338796e3735356442b0a899a7be5264c, type: 3}
+  stackable: 0
+  allowedEquipLocation: 5
   animatorOverride: {fileID: 22100000, guid: f17cfa8f0993c934689dcae415dc4cbb, type: 2}
   equippedPrefab: {fileID: 7946383804162259884, guid: b596f764087cdae409cc71ec4542cf5c, type: 3}
   weaponDamage: 2
